@@ -9,6 +9,7 @@ import {RootState} from '../../../store/store';
 import {update} from '../../../store/slices/onboardingUserSlice';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../navigations/RootNavigation';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const purposeList = [
   'Money transfer',
@@ -21,10 +22,11 @@ const purposeList = [
 type Props = NativeStackScreenProps<RootStackParamList, 'purpose'>;
 
 export default function PurposeScreen({navigation}: Props) {
+  const insets = useSafeAreaInsets();
   const dispatch = useDispatch();
-  const [purpose, setPurpose] = useState<string[]>([]);
-
   const configScreen = useSelector((state: RootState) => state.config.value);
+
+  const [purpose, setPurpose] = useState<string[]>([]);
 
   const isLastScreen = configScreen === 'information';
 
@@ -63,7 +65,11 @@ export default function PurposeScreen({navigation}: Props) {
   };
 
   return (
-    <View style={styles.screenContainer}>
+    <View
+      style={[
+        styles.screenContainer,
+        {paddingBottom: insets.bottom ? insets.bottom + 24 : 24},
+      ]}>
       <View style={styles.contentContainer}>
         <Text style={styles.headerText}>
           What are you looking for in Bluebik eWallet?

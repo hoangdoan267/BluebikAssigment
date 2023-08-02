@@ -4,14 +4,21 @@ import {View, Text, StyleSheet} from 'react-native';
 import {Colors} from '../../../utils/color';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../store/store';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export default function CompleteScreen() {
   const userData = useSelector((state: RootState) => state.onboardingUser);
 
   const {username, dateOfBirth, idCardNumber, phone, email, purpose} = userData;
 
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.screenContainer}>
+    <View
+      style={[
+        styles.screenContainer,
+        {paddingBottom: insets.bottom ? insets.bottom + 24 : 24},
+      ]}>
       <View style={styles.contentContainer}>
         <Text style={styles.headerText}>
           You've successfully registered{' '}

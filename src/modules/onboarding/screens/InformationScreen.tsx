@@ -16,17 +16,19 @@ import {RootState} from '../../../store/store';
 import {update} from '../../../store/slices/onboardingUserSlice';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../navigations/RootNavigation';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'information'>;
 
 export default function InformationScreen({navigation}: Props) {
   const dispatch = useDispatch();
+  const configScreen = useSelector((state: RootState) => state.config.value);
+  const insets = useSafeAreaInsets();
 
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [dateOfBirth, setDateOfBirth] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const configScreen = useSelector((state: RootState) => state.config.value);
 
   const onChangeEmail = (text: string) => {
     setEmail(text);
@@ -45,7 +47,11 @@ export default function InformationScreen({navigation}: Props) {
   };
 
   return (
-    <View style={styles.screenContainer}>
+    <View
+      style={[
+        styles.screenContainer,
+        {paddingBottom: insets.bottom ? insets.bottom + 24 : 24},
+      ]}>
       <View style={styles.contentContainer}>
         <Text style={styles.headerText}>Please tell us more about you!</Text>
         <TextInput

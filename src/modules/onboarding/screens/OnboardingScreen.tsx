@@ -6,11 +6,13 @@ import {update} from '../../../store/slices/onboardingUserSlice';
 import {useDispatch} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../navigations/RootNavigation';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'onboarding'>;
 
 export default function OnboardingScreen({navigation}: Props) {
   const dispatch = useDispatch();
+  const insets = useSafeAreaInsets();
 
   const [username, setUsername] = useState<string>('');
 
@@ -24,7 +26,11 @@ export default function OnboardingScreen({navigation}: Props) {
   };
 
   return (
-    <View style={styles.screenContainer}>
+    <View
+      style={[
+        styles.screenContainer,
+        {paddingBottom: insets.bottom ? insets.bottom + 24 : 24},
+      ]}>
       <View style={styles.contentContainer}>
         <View style={styles.inputGroup}>
           <Text style={styles.headerText}>Welcome</Text>

@@ -7,13 +7,16 @@ import {RootState} from '../../../store/store';
 import {update} from '../../../store/slices/onboardingUserSlice';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../navigations/RootNavigation';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'idCard'>;
 
 export default function IDCardScreen({navigation}: Props) {
+  const insets = useSafeAreaInsets();
   const dispatch = useDispatch();
-  const [idCardNumber, setIdCardNumber] = useState<string>('');
   const configScreen = useSelector((state: RootState) => state.config.value);
+
+  const [idCardNumber, setIdCardNumber] = useState<string>('');
 
   const onChangeIdCard = (text: string) => {
     setIdCardNumber(text);
@@ -32,7 +35,11 @@ export default function IDCardScreen({navigation}: Props) {
   };
 
   return (
-    <View style={styles.screenContainer}>
+    <View
+      style={[
+        styles.screenContainer,
+        {paddingBottom: insets.bottom ? insets.bottom + 24 : 24},
+      ]}>
       <View style={styles.contentContainer}>
         <View style={styles.inputGroup}>
           <Text style={[styles.headerText, styles.brandNameText]}>Oops!!!</Text>
